@@ -17,15 +17,16 @@ class ListsDAOImpl extends ListsDAO {
 
   Box<ListsVO> _getListOfListsBox() => Hive.box<ListsVO>(kListOfListsBoxName);
 
+  Box<ListsVO> get getListOfListsBox =>_getListOfListsBox();
+
 
   @override
   void save(List<ListsVO> listOfLists) {
 
     _homePageDataAgent.getListsVO(kPublishedDate);
     for (ListsVO lists in listOfLists) {
-      _getListOfListsBox().put(lists.listName, lists);
+      _getListOfListsBox().put(lists.listId, lists);
     }
-    print("Your ListsVo are saved Successfully in DataBase------------------------------------------------->");
   }
 
   @override

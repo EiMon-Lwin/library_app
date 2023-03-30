@@ -16,7 +16,7 @@ void main() async {
   Hive.registerAdapter(ListsVOAdapter());
 
   await Hive.openBox<ResultsVO>(kHiveBoxResultsName);
-  // await Hive.openBox<BooksVO>(kFavoriteBooksListBoxName);
+   await Hive.openBox<BooksVO>(kFavoriteBooksListBoxName);
   await Hive.openBox<ListsVO>(kListOfListsBoxName);
   await Hive.openBox<String>(kBoxNameForSearchHistoryVO);
 
