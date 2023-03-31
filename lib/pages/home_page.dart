@@ -205,7 +205,7 @@ class _BookImageViewState extends State<BookImageView> {
                                     onTap: () {
                                       var temp = widget.listsVo.books?[index];
                                       temp?.isSelected = true;
-                                       context.getHomePageBloc().whenTappedFavIcon(temp?.title?? '', widget.listsVo.listId ?? 0);
+                                      // context.getHomePageBloc().whenTappedFavIcon(temp?.title?? '', widget.listsVo.listId ?? 0);
                                      // _favoriteDAO.save(temp, widget.listTitle);
                                       setState(() {});
                                     },
