@@ -46,7 +46,7 @@ class SearchDefaultView extends StatelessWidget {
         children: [
           Icon(icon),
           const SizedBox(
-            width: kSP50x,
+            width: kSP30x,
           ),
           EasyTextWidget(text: label)
         ],

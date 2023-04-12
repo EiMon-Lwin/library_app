@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/blocs/shelf_page_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'navigate_pages.dart';
 
@@ -15,22 +16,25 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: pages,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index)=>
-            setState(() {
-              currentIndex=index;
-            }),
-        items:const [
-          BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: "Library", icon: Icon(Icons.library_books)),
+    return ChangeNotifierProvider(
+      create: (context) => ShelfPageBloc(),
+      child: Scaffold(
+        body: IndexedStack(
+          index: currentIndex,
+          children: pages,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index)=>
+              setState(() {
+                currentIndex=index;
+              }),
+          items:const [
+            BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
+            BottomNavigationBarItem(label: "Library", icon: Icon(Icons.library_books)),
 
-        ],
+          ],
+        ),
       ),
     );
   }

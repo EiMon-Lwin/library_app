@@ -7,3 +7,7 @@ const Color kTabBarBlackColor=Colors.black;
 const Color kIndicatorColor=Colors.amber;
 const Color kDetailsWhiteColor=Colors.white;
 const Color kDetailsBackgroundColor=Color.fromRGBO(245, 244, 220,1);
+const Color kFavoriteColorRed=Colors.red;
+const Color kUnFavoriteColorAmber=Colors.amber;
+const Color kGreyColor=Colors.grey;
+const Color kAmberColor=Colors.amber;

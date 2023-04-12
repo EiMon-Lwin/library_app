@@ -21,13 +21,13 @@ class TextFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         suffixIcon: Container(
           padding: const EdgeInsets.only(right: kSP5x),
-          width: kCircularImageWidth60x,
-          height: kCircularImageHeight60x,
+          width: kCircularImageHeight45x,
+          height: kCircularImageHeight45x,
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
           ),
           child: const CircleAvatar(
-            radius: kCircularImageRadius45x,
+            radius: kRadiusCircular15x,
             backgroundImage: AssetImage(kCatImageAssets),
           ),
         ),

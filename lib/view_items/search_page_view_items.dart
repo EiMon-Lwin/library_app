@@ -38,7 +38,7 @@ class SearchItemView extends StatelessWidget {
                 isAutoFocus: true,
                 isEnable: true,
                 onChange: (text)=>context.getSearchPageBlocInstance().search(text),
-                controller: context.getSearchPageBlocInstance().getSearchEditigController,
+                controller: context.getSearchPageBlocInstance().getSearchEditingController,
 
               ),
             )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:library_app/data/vos/home_screen_api_vos/results_vo/results_vo.dart';
+import 'package:library_app/data/vos/shelf_vos/shelf_vo.dart';
 import 'package:library_app/pages/navigate_page.dart';
 
 import 'consts/persistent_const.dart';
@@ -14,11 +15,13 @@ void main() async {
   Hive.registerAdapter(BooksVOAdapter());
   Hive.registerAdapter(BuyLinksVOAdapter());
   Hive.registerAdapter(ListsVOAdapter());
+  Hive.registerAdapter(ShelfVOAdapter());
 
   await Hive.openBox<ResultsVO>(kHiveBoxResultsName);
    await Hive.openBox<BooksVO>(kFavoriteBooksListBoxName);
   await Hive.openBox<ListsVO>(kListOfListsBoxName);
   await Hive.openBox<String>(kBoxNameForSearchHistoryVO);
+  await Hive.openBox<ShelfVO>(kBoxNameForListShelfVO);
 
   runApp(const LibraryApp());
 }

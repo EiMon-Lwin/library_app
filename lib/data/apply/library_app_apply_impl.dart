@@ -3,15 +3,17 @@ import 'package:library_app/data/vos/home_screen_api_vos/books_vo/books_vo.dart'
 import 'package:library_app/data/vos/home_screen_api_vos/lists_vo/lists_vo.dart';
 import 'package:library_app/data/vos/home_screen_api_vos/results_vo/results_vo.dart';
 import 'package:library_app/data/vos/search_api_vos/items_vo/items_vo.dart';
+import 'package:library_app/data/vos/shelf_vos/shelf_vo.dart';
 import 'package:library_app/persistent/lists_dao/lists_dao_impl.dart';
 import 'package:library_app/persistent/result_dao/result_dao.dart';
+import 'package:library_app/persistent/shelf_dao/shelf_dao.dart';
+import 'package:library_app/persistent/shelf_dao/shelf_dao_impl.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../network/data_agent/library_app_data_agent_impl.dart';
 import '../../network/data_agent/library_app_data_agent.dart';
 
-import '../../persistent/favorite_dao/favorite_dao.dart';
-import '../../persistent/favorite_dao/favorite_dao_impl.dart';
+
 import '../../persistent/lists_dao/lists_dao.dart';
 import '../../persistent/result_dao/result_dao_impl.dart';
 import '../../persistent/search_dao/search_dao.dart';
@@ -23,13 +25,15 @@ class LibraryAppApplyImpl extends LibraryAppApply {
   static final LibraryAppApplyImpl _singleton = LibraryAppApplyImpl._();
 
   factory LibraryAppApplyImpl() => _singleton;
+
   final LibraryAppDataAgent _libraryAppDataAgent = LibraryAppDataAgentImpl();
 
   final ResultsDAO _resultsDAO = ResultDAOImpl();
   final ListsDAO _listsDAO = ListsDAOImpl();
   final SearchHistoryDAO _searchDao = SearchHistoryDAOImpl();
+  final ShelfDAO _shelfDAO=ShelfDAOImpl();
 
-  final FavoriteDAO _favoriteBooksDAO = FavoriteDAOImpl();
+
 
   ///Network Layer
 
@@ -42,15 +46,16 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   @override
   Future<List<ListsVO>?> getListsVOFromNetwork(String publishedDate) =>
-     _libraryAppDataAgent.getListsVO(publishedDate).then((value)  {
-      var temp = _listsDAO.getListOfListsFromDataBase(publishedDate) ?? [];
 
-      if ( temp.isEmpty ) {
-        _listsDAO.save(value!);
-      }
-      return value;
-    });
+      _libraryAppDataAgent.getListsVO(publishedDate).then((value) {
+        print("Meow*********");
+        var temp = _listsDAO.getListOfListsFromDataBase(publishedDate) ?? [];
 
+        if (temp.isEmpty) {
+          _listsDAO.save(value!);
+        }
+        return value;
+      });
 
   @override
   Future<List<ItemsVO>?> getItemListFromNetwork(String search) =>
@@ -67,7 +72,7 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   @override
   Stream<List<ListsVO>?> getListsVOFromDataBaseStream(String publishedDate) {
-    getListsVOFromNetwork(publishedDate);
+
     return _listsDAO
         .watchListsBox()
         .startWith(_listsDAO.getListOfListsFromDataBaseStream(publishedDate))
@@ -82,16 +87,19 @@ class LibraryAppApplyImpl extends LibraryAppApply {
     _searchDao.save(query);
   }
 
-  void saveList(List<ListsVO> listOfLists) =>
-      _listsDAO.save(listOfLists);
+  @override
+  void saveList(List<ListsVO> listOfLists) => _listsDAO.save(listOfLists);
 
   @override
-  Stream<List<BooksVO>?> getFavoriteBooksFromDataBaseStream(String bookKey) {
-    return _favoriteBooksDAO
-        .watchFavoriteBooksBox()
-        .startWith(
-            _favoriteBooksDAO.getFavoriteBookListFromDataBaseStream(bookKey))
-        .map((event) =>
-            _favoriteBooksDAO.getFavoriteBookListFromDataBase(bookKey));
+  Stream<List<ShelfVO>?> getShelfVOFromDataBaseStream() {
+    return  _shelfDAO.watchShelfBox().
+    startWith(_shelfDAO.getListOfShelfVOFromDataBaseStream())
+        .map((event)=> _shelfDAO.getListOfShelfVOFromDataBase());
   }
+
+ void createShelf(String shelfName,List<BooksVO> books)
+ {
+   ShelfVO shelf=ShelfVO(shelfName, books);
+   return _shelfDAO.save(shelf);
+ }
 }

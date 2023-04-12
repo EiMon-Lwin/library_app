@@ -145,7 +145,7 @@ class DetailsPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        EasyTextWidget(text: kOverViewString,fontWeight: kFontWeightBold,),
+                        EasyTextWidget(text: kOverViewText,fontWeight: kFontWeightBold,),
                         SizedBox(height: kSP20x,),
                         EasyTextWidget(
                             text: kOverView

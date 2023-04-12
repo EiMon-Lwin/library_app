@@ -26,17 +26,7 @@ class LibraryAppDataAgentImpl extends LibraryAppDataAgent {
 
   factory LibraryAppDataAgentImpl() => _singleton;
 
- // final ListsDAO _listsDAO=ListsDAOImpl();
 
-  // @override
-  // Future<List<BooksVO>?> getBooksVO(String publishedDate) async{
-  //   List<BooksVO> result=[];
-  //   final temp= await getListsVO(publishedDate);
-  //   temp?.forEach((element) {
-  //     result=element.books ?? [];
-  //   });
-  //   return result;
-  // }
 
 
   @override

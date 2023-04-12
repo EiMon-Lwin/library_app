@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:library_app/blocs/search_page_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../consts/colors.dart';
 import '../consts/dimes.dart';
-import '../consts/strings.dart';
 import '../data/vos/search_api_vos/items_vo/items_vo.dart';
 import '../view_items/search_page_view_items.dart';
 

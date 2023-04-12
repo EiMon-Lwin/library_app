@@ -4,6 +4,6 @@ import 'home_page.dart';
 import 'library_page.dart';
 
 List<Widget> pages=[
-  const HomePage(),
-   LibraryPage(),
+   HomePage(),
+   const LibraryPage(),
 ];

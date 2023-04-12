@@ -25,7 +25,7 @@ class ListsDAOImpl extends ListsDAO {
 
     _homePageDataAgent.getListsVO(kPublishedDate);
     for (ListsVO lists in listOfLists) {
-      _getListOfListsBox().put(lists.listId, lists);
+      _getListOfListsBox().put(lists.listName, lists);
     }
   }
 
