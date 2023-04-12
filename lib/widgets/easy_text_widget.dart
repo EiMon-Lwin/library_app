@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class EasyTextWidget extends StatelessWidget {
   const EasyTextWidget({
-    Key? key,
+     Key? key,
     required this.text,
+
     this.textColor = Colors.black,
     this.fontSize = 15,
     this.textDecoration = TextDecoration.none,

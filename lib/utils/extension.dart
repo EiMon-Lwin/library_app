@@ -24,8 +24,8 @@ extension ContextExtension on BuildContext{
 }
 
 extension StringExtensions on String {
-  String addS() {
-    if (length <= 1) {
+  String addS(int count) {
+    if (count <= 1) {
       return this;
     }
     return '${this}s';
