@@ -72,6 +72,7 @@ class ShowBottomSheetWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: (){
+                    Navigator.of(context).pop();
                     context.navigateToNextScreen(context, ShelfPage(booksVO: bookVO,));
                   },
                     child: const EasyTextWidget(text: kAddToShelfText,fontWeight: kFontWeightBold,))

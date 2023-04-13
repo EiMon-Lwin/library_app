@@ -40,10 +40,9 @@ class ShelfPageBloc extends ChangeNotifier{
 
   void saveNewShelfVOList(){
      var shelfName=_controller.text.toString();
-     // var shelfVO=ShelfVO(shelfName, []);
-     // _shelfList.add(shelfVO);
-     // _shelfDaoImpl.save(_shelfList);
+
     _libraryAppApply.createShelf(shelfName, []);
+
     notifyListeners();
 
   }
@@ -52,9 +51,15 @@ void addBookToShelf(ShelfVO shelfVO,BooksVO booksVO) {
 
    shelfVO.shelfBooks?.add(booksVO);
    _shelfDaoImpl.save(shelfVO);
+   final index = _shelfList.indexWhere((element) => element.shelfName == shelfVO.shelfName);
+   if (index >= 0) {
+     _shelfList[index] = shelfVO;
+   } else {
+     _shelfList.add(shelfVO);
+   }
+   _shelfDaoImpl.save(shelfVO);
 
   notifyListeners();
-
 
   }
 

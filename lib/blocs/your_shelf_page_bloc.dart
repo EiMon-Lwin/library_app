@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../data/apply/library_app_apply_impl.dart';
 import '../data/vos/shelf_vos/shelf_vo.dart';
 
-class ShowShelfBloc extends ChangeNotifier{
+class YourShelfPageBloc extends ChangeNotifier{
 
   /// state variable
   bool _isDispose = false;
@@ -16,11 +16,12 @@ class ShowShelfBloc extends ChangeNotifier{
   final LibraryAppApplyImpl _dataApply = LibraryAppApplyImpl();
 
 
-  ShowShelfBloc(){
+  YourShelfPageBloc(){
     _dataApply.getShelfVOFromDataBaseStream().listen((event) {
       _shelfList = event ?? [];
       notifyListeners();
     });
+    //notifyListeners();
   }
 
   @override

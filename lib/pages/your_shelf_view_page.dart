@@ -30,7 +30,8 @@ class YourShelfViewPage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
+
+        child:  Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EasyTextWidget extends StatelessWidget {
-  const EasyTextWidget({
+  const EasyTextWidget( {
      Key? key,
     required this.text,
 

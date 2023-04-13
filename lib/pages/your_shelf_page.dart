@@ -5,21 +5,23 @@ import 'package:library_app/utils/extension.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/shelf_page_bloc.dart';
-import '../blocs/your_shelf_bloc.dart';
+import '../blocs/your_shelf_page_bloc.dart';
 import '../consts/colors.dart';
 import '../consts/dimes.dart';
 import '../consts/strings.dart';
 import '../data/vos/shelf_vos/shelf_vo.dart';
+import '../utils/images_assets.dart';
 import 'shelf_page.dart';
 import '../widgets/easy_Text_widget.dart';
 
-class YourShelfPage extends StatelessWidget {
+class YourShelfPage extends StatelessWidget
+{
   const YourShelfPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context)=> ShowShelfBloc(),
+      create: (context)=> YourShelfPageBloc(),
 
 
       child: Scaffold(
@@ -82,9 +84,9 @@ class YourShelfPage extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
-        body:  Selector<ShelfPageBloc,List<ShelfVO>>(
-          selector: (_, bloc) =>bloc.getShelfList ,
-          builder: (context, value, child) =>  ListView.separated(
+        body:  Selector<YourShelfPageBloc,List<ShelfVO>>(
+          selector: (_, bloc) =>bloc.getShelfList ?? [] ,
+          builder: (context, value, child) => (value.isEmpty  ?? false || value==null )? Center(child: Image.asset(kNoDataImageAssets)): ListView.separated(
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) =>
               // GestureDetector(
@@ -96,8 +98,7 @@ class YourShelfPage extends StatelessWidget {
               //
               //  child:
             Card(
-                  color: Colors.cyanAccent,
-                  //kDetailsBackgroundColor,
+                  color: kDetailsBackgroundColor,
                   child: Row(
                       children: [
                         CachedNetworkImage(
@@ -128,7 +129,9 @@ class YourShelfPage extends StatelessWidget {
                                 width: 100,
                                 height: kBookTitleHeight65x,
                                 child: EasyTextWidget(text: value[index].shelfName??" ",fontWeight: kFontWeightBold,)),
-                            EasyTextWidget(text: (value[index].shelfBooks?.isEmpty ?? false ) ? "Empty":
+                            EasyTextWidget(text: (value[index].shelfBooks?.isEmpty ?? false ) ?
+                                "#########Empty":
+                            //"Empty":
                                 "${value[index].shelfBooks?.length} book".addS(value[index].shelfBooks?.length ?? 0)
                               ,textColor: kTabBarBlackColor,),
                           ],
@@ -136,7 +139,7 @@ class YourShelfPage extends StatelessWidget {
                         SizedBox(width: 60,),
                         GestureDetector(
                           onTap: (){
-                            context.navigateToNextScreen(context, YourShelfViewPage(shelfVO: value[index],));
+                            context.navigateToNextScreen(context, YourShelfViewPage(shelfVO: value [index],));
                           },
                             child: Icon(Icons.arrow_forward_ios_rounded))
                       ]

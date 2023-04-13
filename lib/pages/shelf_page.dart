@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../consts/colors.dart';
 import '../consts/strings.dart';
+import '../utils/images_assets.dart';
 
  class ShelfPage extends StatelessWidget {
    const ShelfPage({Key? key,required this.booksVO}) : super(key: key);
@@ -102,12 +103,15 @@ import '../consts/strings.dart';
                 ),
                 body:  Selector<ShelfPageBloc,List<ShelfVO>>(
                   selector: (_, bloc) =>bloc.getShelfList ,
-                  builder: (context, value, child) =>  ListView.separated(
+                  builder: (context, value, child) =>(value.isEmpty)? Center(child: Image.asset(kNoDataImageAssets)) : ListView.separated(
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) =>  GestureDetector(
                           onTap: (){
                             context.getShelfPageBlocInstance().addBookToShelf(value[index], booksVO);
                             context.navigateBack(context);
+                            ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+                              backgroundColor: kDetailsBackgroundColor,
+                                content: EasyTextWidget(text: '${booksVO.title} is added to the Shelf!'))));
 
                           },
                           child: Card(
