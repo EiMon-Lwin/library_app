@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+const double kSP1x=1;
 const double kSP3x=3;
 const double kSP5x=5;
 const double kSP8x=8;
@@ -9,6 +10,7 @@ const double kSP20x=20;
 const double kSP40x=40;
 const double kSP50x=50;
 const double kSP55x=55;
+const double kSP60x=60;
 const double kSP30x=30;
 const double kSP8ox=80;
 
@@ -47,8 +49,19 @@ const double kCachedNetworkImageWidth150x=150;
 const double kBorderRadiusCircular8x=8.0;
 const double kTitleWidth150x=150;
 
+///Your Shelf Page
+const double kFloatingActionButtonWidth150x=150;
+const double kFloatingActionButtonRadiusCircular25x=25;
+const double kShowDialogBoxHeight150x=150;
+const double kShelfImageWidth90x=90;
+const double kShelfImageHeight60x=60;
+const String kSaveText="Save";
+
 ///FontWeight
 const FontWeight kFontWeightBold=FontWeight.bold;
+
+///FontSize
+const double kFontSize20x=20;
 
 
 

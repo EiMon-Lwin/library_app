@@ -26,12 +26,12 @@ class YourShelfPage extends StatelessWidget
 
       child: Scaffold(
         floatingActionButton: SizedBox(
-          width: 150,
+          width: kFloatingActionButtonWidth150x,
           child: FloatingActionButton(
 
-            backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: kButtonLightBlueAccentColor,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)
+                borderRadius: BorderRadius.circular(kFloatingActionButtonRadiusCircular25x)
             ),
             onPressed: (){
 
@@ -43,9 +43,9 @@ class YourShelfPage extends StatelessWidget
                         builder: (context, bloc, child) =>  Form(
                           key: bloc.getGlobalKey,
                           child: AlertDialog(
-                            title: const Text("New Shelf"),
+                            title: const EasyTextWidget(text: kNewShelfText,),
                             content: SizedBox(
-                              height: 150,
+                              height: kShowDialogBoxHeight150x,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -53,18 +53,18 @@ class YourShelfPage extends StatelessWidget
                                     controller: context.getShelfPageBlocInstance().getTextEditingController,
                                     validator: (text){
                                       if(text == null || text.isEmpty){
-                                        return "Shelf's name shouldn't Empty";
+                                        return kValidateText;
                                       }
 
                                       return null;
                                     },
                                     decoration: const InputDecoration(
-                                        hintText: "New Shelf Name"
+                                        hintText: kHintText
                                     ),
 
                                   ),
-                                  const SizedBox(height: 20,),
-                                  MaterialButtonWidget()
+                                  const SizedBox(height: kSP20x,),
+                                  const MaterialButtonWidget()
                                 ],
                               ),
                             ),
@@ -76,9 +76,9 @@ class YourShelfPage extends StatelessWidget
             }, child: Row(
             mainAxisSize: MainAxisSize.min,
             children: const [
-              Icon(Icons.edit,color: Colors.white,),
-              SizedBox(width: 5,),
-              EasyTextWidget(text: "Add to new",textColor: Colors.white,)
+              Icon(Icons.edit,color: kDetailsWhiteColor,),
+              SizedBox(width: kSP5x,),
+              EasyTextWidget(text: kAddToNewText,textColor: kDetailsWhiteColor,)
             ],
           ),),
         ),
@@ -86,68 +86,74 @@ class YourShelfPage extends StatelessWidget
 
         body:  Selector<YourShelfPageBloc,List<ShelfVO>>(
           selector: (_, bloc) =>bloc.getShelfList ?? [] ,
-          builder: (context, value, child) => (value.isEmpty  ?? false || value==null )? Center(child: Image.asset(kNoDataImageAssets)): ListView.separated(
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) =>
-              // GestureDetector(
-              //   onTap: (){
-              //     context.getShelfPageBlocInstance().addBookToShelf(value[index], booksVO);
-              //
-              //
-              //   },
-              //
-              //  child:
-            Card(
-                  color: kDetailsBackgroundColor,
-                  child: Row(
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl:  (value[index].shelfBooks?.isEmpty?? false )?
-                          kDefaultImageLink : value[index].shelfBooks?.first.bookImage?? kDefaultImageLink,
-                          imageBuilder: (context, imageProvider) => Container(
-                            margin:  const EdgeInsets.all(kSP20x),
-                            width: 90,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(kImageBorderCircular8x),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+          builder: (context, value, child) {
+            print("##################");
+            if(value.isEmpty)
+              {
+               return Center(child: Image.asset(kNoDataImageAssets));
+              }
+
+              return ListView.separated(
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) =>
+
+              Card(
+                    color: kDetailsBackgroundColor,
+                    child: Row(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl:  (value[index].shelfBooks?.isEmpty?? false )?
+                            kDefaultImageLink : value[index].shelfBooks?.first.bookImage?? kDefaultImageLink,
+                            imageBuilder: (context, imageProvider) => Container(
+                              margin:  const EdgeInsets.all(kSP20x),
+                              width: kShelfImageWidth90x,
+                              height: kShelfImageHeight60x,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(kImageBorderCircular8x),
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
+                            placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator()),
                           ),
-                          placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator()),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
 
-                            Container(
-                                padding: const EdgeInsets.only(top: kSP20x),
-                                width: 100,
-                                height: kBookTitleHeight65x,
-                                child: EasyTextWidget(text: value[index].shelfName??" ",fontWeight: kFontWeightBold,)),
-                            EasyTextWidget(text: (value[index].shelfBooks?.isEmpty ?? false ) ?
-                                "#########Empty":
-                            //"Empty":
-                                "${value[index].shelfBooks?.length} book".addS(value[index].shelfBooks?.length ?? 0)
-                              ,textColor: kTabBarBlackColor,),
-                          ],
-                        ),
-                        SizedBox(width: 60,),
-                        GestureDetector(
-                          onTap: (){
-                            context.navigateToNextScreen(context, YourShelfViewPage(shelfVO: value [index],));
-                          },
-                            child: Icon(Icons.arrow_forward_ios_rounded))
-                      ]
+                              Container(
+                                  padding: const EdgeInsets.only(top: kSP20x),
+                                  width: 100,
+                                  height: kBookTitleHeight65x,
+                                  child: EasyTextWidget(text: value[index].shelfName??" ",fontWeight: kFontWeightBold,)),
+                              EasyTextWidget(text: (value[index].shelfBooks?.isEmpty ?? false ) ?
+                                  "#########Empty":
+                              //"Empty":
+                                  "${value[index].shelfBooks?.length} book".addS(value[index].shelfBooks?.length ?? 0)
+                                ,textColor: kTabBarBlackColor,),
+                            ],
+                          ),
+                          const SizedBox(width: kSP60x,),
+                          GestureDetector(
+                            onTap: (){
+                              context.navigateToNextScreen(context, YourShelfViewPage(shelfVO: value [index],));
+                            },
+                              child: const Icon(Icons.arrow_forward_ios_rounded))
+                        ]
+                    ),
                   ),
-                ),
-            // ),
-              separatorBuilder: (context, index) => SizedBox(height: 5,),
-              itemCount: value.length ),
+
+                separatorBuilder: (context, index) => const SizedBox(height: kSP1x,),
+                itemCount: value.length );
+          }
+
+
+
+
+
         ),
       ),
 

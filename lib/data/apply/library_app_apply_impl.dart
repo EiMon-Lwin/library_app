@@ -4,6 +4,8 @@ import 'package:library_app/data/vos/home_screen_api_vos/lists_vo/lists_vo.dart'
 import 'package:library_app/data/vos/home_screen_api_vos/results_vo/results_vo.dart';
 import 'package:library_app/data/vos/search_api_vos/items_vo/items_vo.dart';
 import 'package:library_app/data/vos/shelf_vos/shelf_vo.dart';
+import 'package:library_app/persistent/carousel_slider_list_dao/carousel_slider_list_dao.dart';
+import 'package:library_app/persistent/carousel_slider_list_dao/carousel_slider_list_dao_Impl.dart';
 import 'package:library_app/persistent/lists_dao/lists_dao_impl.dart';
 import 'package:library_app/persistent/result_dao/result_dao.dart';
 import 'package:library_app/persistent/shelf_dao/shelf_dao.dart';
@@ -32,6 +34,7 @@ class LibraryAppApplyImpl extends LibraryAppApply {
   final ListsDAO _listsDAO = ListsDAOImpl();
   final SearchHistoryDAO _searchDao = SearchHistoryDAOImpl();
   final ShelfDAO _shelfDAO=ShelfDAOImpl();
+  final CarouselSliderListDao _carouselSliderListDao=CarouselSliderListDaoImpl();
 
 
 
@@ -97,9 +100,23 @@ class LibraryAppApplyImpl extends LibraryAppApply {
         .map((event)=> _shelfDAO.getListOfShelfVOFromDataBase());
   }
 
- void createShelf(String shelfName,List<BooksVO> books)
+ @override
+  void createShelf(String shelfName,List<BooksVO> books)
  {
    ShelfVO shelf=ShelfVO(shelfName, books);
    return _shelfDAO.save(shelf);
  }
+
+  @override
+  Stream<List<BooksVO>?> getCarouselSliderBooksListFromDatabaseStream() {
+   return _carouselSliderListDao.watchCarouselSliderListBox().
+    startWith(_carouselSliderListDao.getCarouselSliderListFromDatabaseStream())
+       .map((event) => _carouselSliderListDao.getCarouselSliderListFromDatabase());
+  }
+
+  @override
+  void saveCarouselBooks(BooksVO books) {
+
+    return _carouselSliderListDao.save(books);
+  }
 }

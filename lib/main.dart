@@ -22,6 +22,7 @@ void main() async {
   await Hive.openBox<ListsVO>(kListOfListsBoxName);
   await Hive.openBox<String>(kBoxNameForSearchHistoryVO);
   await Hive.openBox<ShelfVO>(kBoxNameForListShelfVO);
+  await Hive.openBox<BooksVO>(kCarouselSliderBooksListBox);
 
   runApp(const LibraryApp());
 }

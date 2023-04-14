@@ -18,3 +18,10 @@ const String kDefaultImageLink="https://mocra.org/wp-content/uploads/2016/07/def
 ///Library Page
 const String kYourBookText='Your Book';
 const String kYourShelf='Your Shelf';
+
+///Shelf Page
+const String kNewShelfText="New Shelf";
+const String kValidateText="Shelf's name shouldn't Empty";
+const String kHintText="New Shelf Name";
+const String kAddToNewText="Add to new";
+const String kSnackBarText="is added to the Shelf!";

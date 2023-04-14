@@ -22,6 +22,10 @@ abstract class LibraryAppApply {
 
    Stream<List<ShelfVO>?> getShelfVOFromDataBaseStream();
 
+   Stream<List<BooksVO>?> getCarouselSliderBooksListFromDatabaseStream();
+
+   void saveCarouselBooks(BooksVO books);
+
   void saveList(List<ListsVO> listOfLists);
 
   void saveSearchHistory(String query);

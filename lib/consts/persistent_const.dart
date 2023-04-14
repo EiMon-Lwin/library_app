@@ -10,3 +10,4 @@ const String kFavoriteBooksListBoxName='K_HIVE_FAVORITE_BOOKSVO_BOX';
 const String kListOfListsBoxName='K_LIST_OF_LISTS_BOX';
 const kBoxNameForSearchHistoryVO = 'K_SEARCH_HISTORY_VO_BOX';
 const String kBoxNameForListShelfVO='K_LIST_OF_SHELF_VO_BOX';
+const String kCarouselSliderBooksListBox='K_LIST_OF_CAROUSEL_SLIDER_BOOKS';

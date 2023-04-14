@@ -65,7 +65,7 @@ class DetailsPage extends StatelessWidget {
                           imageUrl: bloc.getImageLink,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(kBorderRadiusCircular8x),
                               image: DecorationImage(
                                 image: imageProvider,
                                 fit: BoxFit.cover,

@@ -21,10 +21,10 @@ class YourShelfViewPage extends StatelessWidget {
           onTap: (){
             context.navigateBack(context);
           },
-            child: Icon(Icons.arrow_back_ios,color: kTabBarBlackColor,)),
-        actions: [
+            child: const Icon(Icons.arrow_back_ios,color: kTabBarBlackColor,)),
+        actions: const [
           Icon(Icons.search,color: kTabBarBlackColor,),
-          SizedBox(width: 5,),
+          SizedBox(width: kSP5x,),
           Icon(Icons.more_vert,color: kTabBarBlackColor,)
           
         ],
@@ -36,19 +36,19 @@ class YourShelfViewPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: kSP20x),
               child: Column(
                 children: [
-                  SizedBox(height: 10,),
-                  EasyTextWidget(text: shelfVO.shelfName?? '',fontWeight: kFontWeightBold,fontSize: 20,),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: kSP10x,),
+                  EasyTextWidget(text: shelfVO.shelfName?? '',fontWeight: kFontWeightBold,fontSize: kFontSize20x,),
+                  const SizedBox(height: kSP10x,),
                   EasyTextWidget(text: "${shelfVO.shelfBooks?.length} book".addS(shelfVO.shelfBooks?.length ?? 0))
                 ],
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: kSP10x,),
             SizedBox(
-              height: 300,
+              height: kBookImageItemViewHeight300x,
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => Container(
@@ -87,7 +87,7 @@ class YourShelfViewPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  separatorBuilder: (context, index) => SizedBox(width: 5,),
+                  separatorBuilder: (context, index) => const SizedBox(width: kSP5x,),
                   itemCount: shelfVO.shelfBooks?.length?? 0),
             )
 

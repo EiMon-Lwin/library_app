@@ -9,15 +9,18 @@ import '../persistent/lists_dao/lists_dao_impl.dart';
 class HomePageBloc extends ChangeNotifier {
   bool _dispose = false;
   List<ListsVO> _listsList = [];
+  List<BooksVO> _carouselSliderList=[];
 
   ///Getter
   bool get getIsDispose => _dispose;
 
   List<ListsVO> get getListsList => _listsList;
+  List<BooksVO> get getCarouselSliderList => _carouselSliderList;
 
   ///state Instance
   final LibraryAppApplyImpl _libraryAppApplyImpl = LibraryAppApplyImpl();
   final ListsDAOImpl _listDAOImpl = ListsDAOImpl();
+
 
   HomePageBloc() {
      _libraryAppApplyImpl.getListsVOFromNetwork(kPublishedDate);
@@ -27,6 +30,13 @@ class HomePageBloc extends ChangeNotifier {
       if (event != null && event.isNotEmpty) {
         _listsList = event ?? [] ;
 
+        notifyListeners();
+      }
+    });
+
+    _libraryAppApplyImpl.getCarouselSliderBooksListFromDatabaseStream().listen((event) {
+      if(event !=null && event.isNotEmpty){
+        _carouselSliderList=event ;
         notifyListeners();
       }
     });
@@ -66,5 +76,11 @@ class HomePageBloc extends ChangeNotifier {
       notifyListeners();
       return;
     }
+  }
+
+  void showCarouselSlider(BooksVO booksVO){
+    _libraryAppApplyImpl.saveCarouselBooks(booksVO);
+    notifyListeners();
+
   }
 }

@@ -19,13 +19,17 @@ class BooksSessionItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+     physics:  const NeverScrollableScrollPhysics(),
       itemCount: listsList.length,
+
       separatorBuilder: (BuildContext context, int index) => Container(
         height: kSP10x,
       ),
-      itemBuilder: (BuildContext context, int index) => SizedBox(
-        height: kOneShelfHeight360x,
-        child: Column(
+      itemBuilder: (BuildContext context, int index) =>
+      // SizedBox(
+      //   height: kOneShelfHeight360x,
+      //   child:
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -53,7 +57,7 @@ class BooksSessionItemView extends StatelessWidget {
             ),
           ],
         ),
-      ),
+     // ),
     );
   }
 }
@@ -92,6 +96,9 @@ class BookImageView extends StatelessWidget {
                               DetailsPage(
                                 booksVO: listsVo.books?[index],
                               ));
+
+                          context.getHomePageBloc().showCarouselSlider(listsVo.books![index]);
+
                         },
                         onLongPress: (){
 

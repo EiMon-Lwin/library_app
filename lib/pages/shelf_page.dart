@@ -34,12 +34,12 @@ import '../utils/images_assets.dart';
 
         child: Scaffold(
                 floatingActionButton: SizedBox(
-                  width: 150,
+                  width: kFloatingActionButtonWidth150x,
                   child: FloatingActionButton(
 
                     backgroundColor: Colors.lightBlueAccent,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)
+                        borderRadius: BorderRadius.circular(kFloatingActionButtonRadiusCircular25x)
                     ),
                     onPressed: (){
 
@@ -52,9 +52,9 @@ import '../utils/images_assets.dart';
                                 builder: (context, bloc, child) =>  Form(
                                   key: bloc.getGlobalKey,
                                   child: AlertDialog(
-                                    title: const Text("New Shelf"),
+                                    title: const EasyTextWidget(text: kNewShelfText,),
                                     content: SizedBox(
-                                      height: 150,
+                                      height: kShowDialogBoxHeight150x,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -62,18 +62,18 @@ import '../utils/images_assets.dart';
                                             controller: context.getShelfPageBlocInstance().getTextEditingController,
                                             validator: (text){
                                               if(text == null || text.isEmpty){
-                                                return "Shelf's name shouldn't Empty";
+                                                return kValidateText;
                                               }
 
                                               return null;
                                             },
                                             decoration: const InputDecoration(
-                                                hintText: "New Shelf Name"
+                                                hintText: kHintText
                                             ),
 
                                           ),
-                                          const SizedBox(height: 20,),
-                                          MaterialButtonWidget()
+                                          const SizedBox(height: kSP20x,),
+                                          const MaterialButtonWidget()
                                         ],
                                       ),
                                     ),
@@ -85,21 +85,21 @@ import '../utils/images_assets.dart';
                     }, child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: const [
-                      Icon(Icons.edit,color: Colors.white,),
-                      SizedBox(width: 5,),
-                      EasyTextWidget(text: "Add to new",textColor: Colors.white,)
+                      Icon(Icons.edit,color: kDetailsWhiteColor,),
+                      SizedBox(width: kSP5x,),
+                      EasyTextWidget(text: kAddToNewText,textColor: kDetailsWhiteColor,)
                     ],
                   ),),
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 appBar: AppBar(
-                  backgroundColor: Colors.white,
-                  title: EasyTextWidget(text: "Add to Shelf",fontWeight: kFontWeightBold,),
+                  backgroundColor: kDetailsWhiteColor,
+                  title: const EasyTextWidget(text: kAddToShelfText,fontWeight: kFontWeightBold,),
                   leading: GestureDetector(
                       onTap: (){
                         context.navigateBack(context);
                       },
-                      child: Icon(Icons.arrow_back_ios_rounded,color: Colors.black,)),
+                      child: const Icon(Icons.arrow_back_ios_rounded,color: kTabBarBlackColor)),
                 ),
                 body:  Selector<ShelfPageBloc,List<ShelfVO>>(
                   selector: (_, bloc) =>bloc.getShelfList ,
@@ -111,7 +111,7 @@ import '../utils/images_assets.dart';
                             context.navigateBack(context);
                             ScaffoldMessenger.of(context).showSnackBar((SnackBar(
                               backgroundColor: kDetailsBackgroundColor,
-                                content: EasyTextWidget(text: '${booksVO.title} is added to the Shelf!'))));
+                                content: EasyTextWidget(text: '${booksVO.title} $kSnackBarText'))));
 
                           },
                           child: Card(
@@ -123,8 +123,8 @@ import '../utils/images_assets.dart';
                                     value[index].shelfBooks?.first.bookImage?? '',
                                     imageBuilder: (context, imageProvider) => Container(
                                       margin: const EdgeInsets.all(kSP20x),
-                                      width: 90,
-                                      height: 60,
+                                      width: kShelfImageWidth90x,
+                                      height: kShelfImageHeight60x,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(kImageBorderCircular8x),
                                         image: DecorationImage(
@@ -155,7 +155,7 @@ import '../utils/images_assets.dart';
                             ),
                           ),
                         ),
-                        separatorBuilder: (context, index) => SizedBox(height: 5,),
+                        separatorBuilder: (context, index) => const SizedBox(height: kSP1x,),
                         itemCount: value.length ),
                 ),
                 ),
@@ -180,12 +180,12 @@ class MaterialButtonWidget extends StatelessWidget {
         context.getShelfPageBlocInstance().saveNewShelfVOList();
         context.navigateBack(context);
       }
-    },color: Colors.lightBlueAccent,child: Row(
+    },color: kButtonLightBlueAccentColor,child: Row(
       mainAxisSize: MainAxisSize.min,
       children: const [
-        Icon(Icons.done,color: Colors.white,),
-        SizedBox(width: 5,),
-        EasyTextWidget(text: "Save",textColor: Colors.white,)
+        Icon(Icons.done,color: kDetailsWhiteColor,),
+        SizedBox(width: kSP5x,),
+        EasyTextWidget(text: kSaveText,textColor: kDetailsWhiteColor,)
 
       ],
     ),);

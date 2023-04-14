@@ -11,3 +11,4 @@ const Color kFavoriteColorRed=Colors.red;
 const Color kUnFavoriteColorAmber=Colors.amber;
 const Color kGreyColor=Colors.grey;
 const Color kAmberColor=Colors.amber;
+const Color kButtonLightBlueAccentColor=Colors.lightBlueAccent;
