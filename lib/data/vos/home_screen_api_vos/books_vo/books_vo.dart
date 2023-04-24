@@ -109,10 +109,14 @@ class BooksVO {
   @HiveField(24)
   List<BuyLinksVO>? buyLinks;
 
+  @HiveField(27)
+  String? bookListName;
+
   @HiveField(25)
   bool? isSelected;
 
-
+  @HiveField(26)
+  int order;
 
   BooksVO(
     this.ageGroup,
@@ -140,8 +144,9 @@ class BooksVO {
     this.updatedDate,
     this.weeksOnList,
     this.buyLinks,
-  {this.isSelected = false,
-
+    this.bookListName, {
+    this.isSelected = false,
+    this.order = 0,
   });
 
   factory BooksVO.fromJson(Map<String, dynamic> json) =>

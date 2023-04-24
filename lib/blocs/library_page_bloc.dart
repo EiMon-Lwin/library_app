@@ -5,7 +5,6 @@ import 'package:library_app/data/vos/home_screen_api_vos/lists_vo/lists_vo.dart'
 
 import 'package:library_app/persistent/lists_dao/lists_dao_impl.dart';
 
-
 import '../data/apply/library_app_apply_impl.dart';
 
 class LibraryPageBloc extends ChangeNotifier {

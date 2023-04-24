@@ -28,7 +28,7 @@ class DetailsPage extends StatelessWidget {
               title: EasyTextWidget(
                 text: bloc.getBookName,
                 textColor: kTabBarBlackColor,
-                fontWeight: FontWeight.w400,
+                fontWeight: kFontWeight400x,
               ),
               leading: IconButton(
                 onPressed: () {

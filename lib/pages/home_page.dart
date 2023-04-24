@@ -30,17 +30,12 @@ class HomePage extends StatelessWidget {
             child: child,
           ),
           child: Consumer<HomePageBloc>(
-            builder: (context, bloc, child) => DefaultTabController(
-              length: 2,
-              child: Scaffold(
-               key: scaffoldKey,
+            builder: (context, bloc, child) => Scaffold(
+             key: scaffoldKey,
 
-                body: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-
-                      const SizedBox(
+              body: Column(
+               children:   [
+                 const SizedBox(
                         height: kSP50x,
                       ),
 
@@ -50,134 +45,78 @@ class HomePage extends StatelessWidget {
                             const EdgeInsets.only(left: kSP5x, right: kSP10x),
                         padding: const EdgeInsets.only(left: kSP3x),
                         width: kTextFieldSizedWidth380x,
-                        height: kTextFieldSizedHeight70x,
+                        height: kTextFieldSizedHeight55x,
                         child: TextFieldWidget(
                           icon: const Icon(Icons.saved_search),
                           text: kHomePageHintText,
                         )),
 
-                    // const SizedBox(
-                    //   height: kSP10x,
-                    // ),
-
-                   Expanded(
-                     child: ListView(
-                       children: [
-                        SizedBox(
-                          height: 800,
-                          child: Column(
-                            children: [
-                              Selector<HomePageBloc,List<BooksVO>>(
-                                selector: (_, bloc) => bloc.getCarouselSliderList ,
-                                builder: (context, books, child) =>
-                                (books.isEmpty)? Container():
-                                    Container(
-                                  padding: EdgeInsets.all(5),
-                                 // color: Colors.purpleAccent,
-                                 // width: double.infinity,
-                                  height: 280,
-                                  child: CarouselSlider.builder(
-                                    options: CarouselOptions(
-                                     // initialPage: books,
-                                      aspectRatio: 1,
-                                      autoPlay: true,
-                                      enableInfiniteScroll: false,
-                                      enlargeCenterPage: true,
-                                      scrollDirection: Axis.horizontal,
-                                    ),
-                                    itemCount: books.length,
-                                    itemBuilder: (context, index, realIndex) =>
-                                        SizedBox(
-                                          width: 200,
-                                          height: 150,
-                                          child: Stack(children: [
-
-                                            GestureDetector(
-
-                                              onLongPress: (){
-
-
-                                                var sheetController=scaffoldKey.currentState?.showBottomSheet(
-                                                        (context) =>  ShowBottomSheetWidget(bookVO: books[index],)
-                                                );
-                                                sheetController?.closed.then((value) => {});
+                  const SizedBox(height: kSP10x,),
+                       Expanded(
+                         child: ListView(
+                           children: [
+                             Selector<HomePageBloc,List<BooksVO>>(
+                               selector: (_, bloc) => bloc.getCarouselSliderList ,
+                               builder: (context, books, child) =>
+                               (books.isEmpty)? Container():
+                               SizedBox(
+                                 width: kCarouselSliderWidth350x,
+                                 height: kCarouselSliderHeight230x,
+                                 child: CarouselSlider.builder(
+                                     options: CarouselOptions(
+                                       viewportFraction: 0.6,
+                                       initialPage: books.length-1,
+                                       aspectRatio: 1,
+                                       autoPlay: true,
+                                       enableInfiniteScroll: false,
+                                       enlargeCenterPage: true,
+                                       scrollDirection: Axis.horizontal,
+                                     ),
+                                     itemCount: books.length,
+                                     itemBuilder: (context, index, realIndex) =>
+                                         Container(
+                                           padding: const EdgeInsets.all(kSP5x),
+                                           width: kCarouselSliderWidth230x,
+                                           height: kCarouselSliderHeight200x,
+                                           child: BooksView(
+                                             listsName: books[index].bookListName ?? '',
+                                             bookVo: books[index],
+                                             scaffoldKey: scaffoldKey ,
+                                           ),
+                                         )
+                                 ),
+                               ),
+                             ),
+                             const SizedBox(
+                               height: 5,
+                             ),
 
 
-                                              },
-                                              child: CachedNetworkImage(
-                                                imageUrl: books[index].bookImage ??
-                                                    kDefaultImageLink,
-                                                imageBuilder: (context, imageProvider) => Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(15),
-                                                    image: DecorationImage(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
-                                                ),
-                                                placeholder: (context, url) => const Center(
-                                                    child: CircularProgressIndicator()),
-                                              ),
-                                            ),
-                                            Align(
-                                                alignment: Alignment.topRight,
-                                                child: GestureDetector(
+                               (context.getHomePageBloc().getListsList.isEmpty)
+                                   ? const Center(child: CircularProgressIndicator())
+                                   : Column(
+                                 children: context.getHomePageBloc().getListsList.map((listVo) =>
+                                 BooksSessionItemView(listVO: listVo, scaffoldKey: scaffoldKey)
+                                 ).toList(),
+                               )
 
 
-                                                  child: CircleAvatar(
-                                                    backgroundColor: Colors.white70,
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      color: (books[index].isSelected ??
-                                                          false)
-                                                          ? kFavoriteColorRed
-                                                          : kUnFavoriteColorAmber,
-                                                    ),
-                                                  ),
-                                                ))
-                                          ]),
-                                        )
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const SizedBox(
-                                height: kSP50x,
-                                child: TabBar(
-                                  indicatorPadding: EdgeInsets.symmetric(vertical: 0.3),
-                                  tabs: [Text(kEbooksString), Text(kAudioBooks)],
-                                  unselectedLabelColor: kGreyColor,
-                                  labelColor: kAmberColor,
-                                ),
-                              ),
-                              Expanded(
-                                child: TabBarView(children: [
-                                  (context.getHomePageBloc().getListsList.isEmpty)
-                                      ? const Center(child: CircularProgressIndicator())
-                                      : BooksSessionItemView(
-                                    listsList:
-                                    context.getHomePageBloc().getListsList,
-                                    scaffoldKey: scaffoldKey,
-                                  ),
-                                  Container()
-                                ]),
-                              ),
-                            ],
-                          ),
-                        )
-                       ],
-                     ),
-                   ),
 
-                  ],
-                ),
+                           ],
+                         ),
+                       )
+
+
+
+
+
+
+              ]
+              ),
               ),
             ),
           ),
-        ));
+        );
   }
 }
 

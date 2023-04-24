@@ -24,4 +24,5 @@ const String kNewShelfText="New Shelf";
 const String kValidateText="Shelf's name shouldn't Empty";
 const String kHintText="New Shelf Name";
 const String kAddToNewText="Add to new";
-const String kSnackBarText="is added to the Shelf!";
+const String kSnackBarText ="is added to the Shelf!";
+const String kEmptyText="Empty";

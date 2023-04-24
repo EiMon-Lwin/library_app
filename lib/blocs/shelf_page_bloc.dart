@@ -5,65 +5,56 @@ import '../data/apply/library_app_apply_impl.dart';
 import '../data/vos/shelf_vos/shelf_vo.dart';
 import '../persistent/shelf_dao/shelf_dao_impl.dart';
 
-class ShelfPageBloc extends ChangeNotifier{
-  bool _dispose=false;
+class ShelfPageBloc extends ChangeNotifier {
+  bool _dispose = false;
 
-  List<ShelfVO> _shelfList=[];
-  var keys=[];
-
+  List<ShelfVO> _shelfList = [];
+  var keys = [];
 
   ///Getter
- bool get isDispose=>_dispose;
+  bool get isDispose => _dispose;
 
- List<ShelfVO> get getShelfList=>_shelfList;
- GlobalKey<FormState> get getGlobalKey => _formKey;
- TextEditingController get getTextEditingController=> _controller;
+  List<ShelfVO> get getShelfList => _shelfList;
 
+  GlobalKey<FormState> get getGlobalKey => _formKey;
 
+  TextEditingController get getTextEditingController => _controller;
 
- ///Create Instance
-  final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
-  final TextEditingController _controller=TextEditingController();
-  final ShelfDAOImpl _shelfDaoImpl=ShelfDAOImpl();
-  final LibraryAppApplyImpl _libraryAppApply=LibraryAppApplyImpl();
+  ///Create Instance
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _controller = TextEditingController();
+  final ShelfDAOImpl _shelfDaoImpl = ShelfDAOImpl();
+  final LibraryAppApplyImpl _libraryAppApply = LibraryAppApplyImpl();
 
   ShelfPageBloc() {
-      _libraryAppApply.getShelfVOFromDataBaseStream().listen((event) {
-        _shelfList=event ?? [];
-        notifyListeners();
-
-      });
-
-
-
+    _libraryAppApply.getShelfVOFromDataBaseStream().listen((event) {
+      _shelfList = event ?? [];
+      notifyListeners();
+    });
   }
 
-  void saveNewShelfVOList(){
-     var shelfName=_controller.text.toString();
+  void saveNewShelfVOList() {
+    var shelfName = _controller.text.toString();
 
     _libraryAppApply.createShelf(shelfName, []);
 
     notifyListeners();
-
   }
 
-void addBookToShelf(ShelfVO shelfVO,BooksVO booksVO) {
+  void addBookToShelf(ShelfVO shelfVO, BooksVO booksVO) {
+    shelfVO.shelfBooks?.add(booksVO);
+    _shelfDaoImpl.save(shelfVO);
+    final index = _shelfList
+        .indexWhere((element) => element.shelfName == shelfVO.shelfName);
+    if (index >= 0) {
+      _shelfList[index] = shelfVO;
+    } else {
+      _shelfList.add(shelfVO);
+    }
+    _shelfDaoImpl.save(shelfVO);
 
-   shelfVO.shelfBooks?.add(booksVO);
-   _shelfDaoImpl.save(shelfVO);
-   final index = _shelfList.indexWhere((element) => element.shelfName == shelfVO.shelfName);
-   if (index >= 0) {
-     _shelfList[index] = shelfVO;
-   } else {
-     _shelfList.add(shelfVO);
-   }
-   _shelfDaoImpl.save(shelfVO);
-
-  notifyListeners();
-
+    notifyListeners();
   }
-
-
 
   @override
   void dispose() {
@@ -77,5 +68,4 @@ void addBookToShelf(ShelfVO shelfVO,BooksVO booksVO) {
       super.notifyListeners();
     }
   }
-
 }

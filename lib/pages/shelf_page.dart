@@ -15,156 +15,189 @@ import '../consts/colors.dart';
 import '../consts/strings.dart';
 import '../utils/images_assets.dart';
 
- class ShelfPage extends StatelessWidget {
-   const ShelfPage({Key? key,required this.booksVO}) : super(key: key);
- final  BooksVO booksVO;
+class ShelfPage extends StatelessWidget {
+  const ShelfPage({Key? key, required this.booksVO}) : super(key: key);
+  final BooksVO booksVO;
 
   @override
   Widget build(BuildContext context) {
-    final ShelfDAOImpl _shelfDaoImpl=ShelfDAOImpl();
-    var keyList=_shelfDaoImpl.getShelfVOBox().keys.toList();
-    keyList.forEach((element) {
-      print("-------------------->${element}");
-    });
-    print("EiMonLwin============>${_shelfDaoImpl.getShelfVOBox().values.toList()}");
+    final ShelfDAOImpl shelfDaoImpl = ShelfDAOImpl();
+    var keyList = shelfDaoImpl.getShelfVOBox().keys.toList();
+    keyList.forEach((element) {});
 
     return ChangeNotifierProvider(
-      create: (context)=> ShelfPageBloc(),
+      create: (context) => ShelfPageBloc(),
+      child: Scaffold(
+        floatingActionButton: SizedBox(
+          width: kFloatingActionButtonWidth150x,
+          child: FloatingActionButton(
+            backgroundColor: kButtonLightBlueAccentColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    kFloatingActionButtonRadiusCircular25x)),
+            onPressed: () {
+              showDialog(
+                context: context,
+                useRootNavigator: false,
+                builder: (context) => ChangeNotifierProvider(
+                  create: (context) => ShelfPageBloc(),
+                  child: Consumer<ShelfPageBloc>(
+                    builder: (context, bloc, child) => Form(
+                      key: bloc.getGlobalKey,
+                      child: AlertDialog(
+                        title: const EasyTextWidget(
+                          text: kNewShelfText,
+                        ),
+                        content: SizedBox(
+                          height: kShowDialogBoxHeight150x,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextFormField(
+                                controller: context
+                                    .getShelfPageBlocInstance()
+                                    .getTextEditingController,
+                                validator: (text) {
+                                  if (text == null || text.isEmpty) {
+                                    return kValidateText;
+                                  }
 
-
-        child: Scaffold(
-                floatingActionButton: SizedBox(
-                  width: kFloatingActionButtonWidth150x,
-                  child: FloatingActionButton(
-
-                    backgroundColor: Colors.lightBlueAccent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(kFloatingActionButtonRadiusCircular25x)
-                    ),
-                    onPressed: (){
-
-                      showDialog(context: context,
-                        useRootNavigator: false,
-                        builder: (context) =>
-                            ChangeNotifierProvider(
-                              create: (context) => ShelfPageBloc(),
-                              child: Consumer<ShelfPageBloc>(
-                                builder: (context, bloc, child) =>  Form(
-                                  key: bloc.getGlobalKey,
-                                  child: AlertDialog(
-                                    title: const EasyTextWidget(text: kNewShelfText,),
-                                    content: SizedBox(
-                                      height: kShowDialogBoxHeight150x,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          TextFormField(
-                                            controller: context.getShelfPageBlocInstance().getTextEditingController,
-                                            validator: (text){
-                                              if(text == null || text.isEmpty){
-                                                return kValidateText;
-                                              }
-
-                                              return null;
-                                            },
-                                            decoration: const InputDecoration(
-                                                hintText: kHintText
-                                            ),
-
-                                          ),
-                                          const SizedBox(height: kSP20x,),
-                                          const MaterialButtonWidget()
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                  return null;
+                                },
+                                decoration:
+                                    const InputDecoration(hintText: kHintText),
                               ),
-                            ),
-                      );
-                    }, child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.edit,color: kDetailsWhiteColor,),
-                      SizedBox(width: kSP5x,),
-                      EasyTextWidget(text: kAddToNewText,textColor: kDetailsWhiteColor,)
-                    ],
-                  ),),
-                ),
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                appBar: AppBar(
-                  backgroundColor: kDetailsWhiteColor,
-                  title: const EasyTextWidget(text: kAddToShelfText,fontWeight: kFontWeightBold,),
-                  leading: GestureDetector(
-                      onTap: (){
-                        context.navigateBack(context);
-                      },
-                      child: const Icon(Icons.arrow_back_ios_rounded,color: kTabBarBlackColor)),
-                ),
-                body:  Selector<ShelfPageBloc,List<ShelfVO>>(
-                  selector: (_, bloc) =>bloc.getShelfList ,
-                  builder: (context, value, child) =>(value.isEmpty)? Center(child: Image.asset(kNoDataImageAssets)) : ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) =>  GestureDetector(
-                          onTap: (){
-                            context.getShelfPageBlocInstance().addBookToShelf(value[index], booksVO);
-                            context.navigateBack(context);
-                            ScaffoldMessenger.of(context).showSnackBar((SnackBar(
-                              backgroundColor: kDetailsBackgroundColor,
-                                content: EasyTextWidget(text: '${booksVO.title} $kSnackBarText'))));
-
-                          },
-                          child: Card(
-                            color: kDetailsBackgroundColor,
-                            child: Row(
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl: (value[index].shelfBooks?.isEmpty ?? false)? kDefaultImageLink:
-                                    value[index].shelfBooks?.first.bookImage?? '',
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      margin: const EdgeInsets.all(kSP20x),
-                                      width: kShelfImageWidth90x,
-                                      height: kShelfImageHeight60x,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(kImageBorderCircular8x),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator()),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      Container(
-                                          padding: const EdgeInsets.only(top: kSP20x),
-                                          width: 80,
-                                          height: kBookTitleHeight65x,
-                                          child: EasyTextWidget(text: value[index].shelfName??" ",fontWeight: kFontWeightBold,)),
-                                       EasyTextWidget(text: (value[index].shelfBooks?.isEmpty ?? false)? "Empty":
-                                       "${value[index].shelfBooks?.length} book".addS(value[index].shelfBooks?.length ?? 0),
-                                         textColor: kTabBarBlackColor,),
-                                    ],
-                                  )
-                                ]
-                            ),
+                              const SizedBox(
+                                height: kSP20x,
+                              ),
+                              const MaterialButtonWidget()
+                            ],
                           ),
                         ),
-                        separatorBuilder: (context, index) => const SizedBox(height: kSP1x,),
-                        itemCount: value.length ),
+                      ),
+                    ),
+                  ),
                 ),
+              );
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(
+                  Icons.edit,
+                  color: kDetailsWhiteColor,
                 ),
-
+                SizedBox(
+                  width: kSP5x,
+                ),
+                EasyTextWidget(
+                  text: kAddToNewText,
+                  textColor: kDetailsWhiteColor,
+                )
+              ],
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        appBar: AppBar(
+          backgroundColor: kDetailsWhiteColor,
+          title: const EasyTextWidget(
+            text: kAddToShelfText,
+            fontWeight: kFontWeightBold,
+          ),
+          leading: GestureDetector(
+              onTap: () {
+                context.navigateBack(context);
+              },
+              child: const Icon(Icons.arrow_back_ios_rounded,
+                  color: kTabBarBlackColor)),
+        ),
+        body: Selector<ShelfPageBloc, List<ShelfVO>>(
+          selector: (_, bloc) => bloc.getShelfList,
+          builder: (context, value, child) => (value.isEmpty)
+              ? Center(child: Image.asset(kNoDataImageAssets))
+              : ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          context
+                              .getShelfPageBlocInstance()
+                              .addBookToShelf(value[index], booksVO);
+                          context.navigateBack(context);
+                          ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+                              backgroundColor: kDetailsBackgroundColor,
+                              content: EasyTextWidget(
+                                  text: '${booksVO.title} $kSnackBarText'))));
+                        },
+                        child: ShelfItemView(
+                          shelfVO: value[index],
+                        ),
+                      ),
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: kSP1x,
+                      ),
+                  itemCount: value.length),
+        ),
+      ),
     );
+  }
+}
 
+class ShelfItemView extends StatelessWidget {
+  const ShelfItemView({
+    super.key,
+    required this.shelfVO,
+  });
 
+  final ShelfVO shelfVO;
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: kDetailsBackgroundColor,
+      child: Row(children: [
+        CachedNetworkImage(
+          imageUrl: (shelfVO.shelfBooks?.isEmpty ?? false)
+              ? kDefaultImageLink
+              : shelfVO.shelfBooks?.first.bookImage ?? '',
+          imageBuilder: (context, imageProvider) => Container(
+            margin: const EdgeInsets.all(kSP20x),
+            width: kShelfImageWidth90x,
+            height: kShelfImageHeight60x,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kImageBorderCircular8x),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          placeholder: (context, url) =>
+              const Center(child: CircularProgressIndicator()),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                padding: const EdgeInsets.only(top: kSP20x),
+                width: 80,
+                height: kBookTitleHeight65x,
+                child: EasyTextWidget(
+                  text: shelfVO.shelfName ?? " ",
+                  fontWeight: kFontWeightBold,
+                )),
+            EasyTextWidget(
+              text: (shelfVO.shelfBooks?.isEmpty ?? false)
+                  ? kEmptyText
+                  : "${shelfVO.shelfBooks?.length} book"
+                      .addS(shelfVO.shelfBooks?.length ?? 0),
+              textColor: kTabBarBlackColor,
+            ),
+          ],
+        )
+      ]),
+    );
   }
 }
 
@@ -172,22 +205,38 @@ class MaterialButtonWidget extends StatelessWidget {
   const MaterialButtonWidget({
     super.key,
   });
+
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(onPressed: (){
-      if(context.getShelfPageBlocInstance().getGlobalKey.currentState?. validate() ?? false)
-      {
-        context.getShelfPageBlocInstance().saveNewShelfVOList();
-        context.navigateBack(context);
-      }
-    },color: kButtonLightBlueAccentColor,child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        Icon(Icons.done,color: kDetailsWhiteColor,),
-        SizedBox(width: kSP5x,),
-        EasyTextWidget(text: kSaveText,textColor: kDetailsWhiteColor,)
-
-      ],
-    ),);
+    return MaterialButton(
+      onPressed: () {
+        if (context
+                .getShelfPageBlocInstance()
+                .getGlobalKey
+                .currentState
+                ?.validate() ??
+            false) {
+          context.getShelfPageBlocInstance().saveNewShelfVOList();
+          context.navigateBack(context);
+        }
+      },
+      color: kButtonLightBlueAccentColor,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(
+            Icons.done,
+            color: kDetailsWhiteColor,
+          ),
+          SizedBox(
+            width: kSP5x,
+          ),
+          EasyTextWidget(
+            text: kSaveText,
+            textColor: kDetailsWhiteColor,
+          )
+        ],
+      ),
+    );
   }
 }

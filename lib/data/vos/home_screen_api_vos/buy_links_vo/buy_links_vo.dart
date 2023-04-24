@@ -1,14 +1,13 @@
-
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../consts/persistent_const.dart';
 
 part 'buy_links_vo.g.dart';
+
 @JsonSerializable()
 @HiveType(typeId: kHiveTypeForBuyLinkTypeId)
 class BuyLinksVO {
-
   @JsonKey(name: "name")
   @HiveField(0)
   String? name;
@@ -19,7 +18,8 @@ class BuyLinksVO {
 
   BuyLinksVO({this.name, this.url});
 
-  factory BuyLinksVO.fromJson(Map<String, dynamic> json) =>_$BuyLinksVOFromJson(json);
+  factory BuyLinksVO.fromJson(Map<String, dynamic> json) =>
+      _$BuyLinksVOFromJson(json);
 
-  Map<String, dynamic> toJson() =>_$BuyLinksVOToJson(this);
+  Map<String, dynamic> toJson() => _$BuyLinksVOToJson(this);
 }

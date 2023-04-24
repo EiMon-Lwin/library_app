@@ -15,7 +15,6 @@ import 'package:stream_transform/stream_transform.dart';
 import '../../network/data_agent/library_app_data_agent_impl.dart';
 import '../../network/data_agent/library_app_data_agent.dart';
 
-
 import '../../persistent/lists_dao/lists_dao.dart';
 import '../../persistent/result_dao/result_dao_impl.dart';
 import '../../persistent/search_dao/search_dao.dart';
@@ -33,10 +32,9 @@ class LibraryAppApplyImpl extends LibraryAppApply {
   final ResultsDAO _resultsDAO = ResultDAOImpl();
   final ListsDAO _listsDAO = ListsDAOImpl();
   final SearchHistoryDAO _searchDao = SearchHistoryDAOImpl();
-  final ShelfDAO _shelfDAO=ShelfDAOImpl();
-  final CarouselSliderListDao _carouselSliderListDao=CarouselSliderListDaoImpl();
-
-
+  final ShelfDAO _shelfDAO = ShelfDAOImpl();
+  final CarouselSliderListDao _carouselSliderListDao =
+      CarouselSliderListDaoImpl();
 
   ///Network Layer
 
@@ -49,7 +47,6 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   @override
   Future<List<ListsVO>?> getListsVOFromNetwork(String publishedDate) =>
-
       _libraryAppDataAgent.getListsVO(publishedDate).then((value) {
         print("Meow*********");
         var temp = _listsDAO.getListOfListsFromDataBase(publishedDate) ?? [];
@@ -75,7 +72,6 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   @override
   Stream<List<ListsVO>?> getListsVOFromDataBaseStream(String publishedDate) {
-
     return _listsDAO
         .watchListsBox()
         .startWith(_listsDAO.getListOfListsFromDataBaseStream(publishedDate))
@@ -95,28 +91,30 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   @override
   Stream<List<ShelfVO>?> getShelfVOFromDataBaseStream() {
-    return  _shelfDAO.watchShelfBox().
-    startWith(_shelfDAO.getListOfShelfVOFromDataBaseStream())
-        .map((event)=> _shelfDAO.getListOfShelfVOFromDataBase());
+    return _shelfDAO
+        .watchShelfBox()
+        .startWith(_shelfDAO.getListOfShelfVOFromDataBaseStream())
+        .map((event) => _shelfDAO.getListOfShelfVOFromDataBase());
   }
 
- @override
-  void createShelf(String shelfName,List<BooksVO> books)
- {
-   ShelfVO shelf=ShelfVO(shelfName, books);
-   return _shelfDAO.save(shelf);
- }
+  @override
+  void createShelf(String shelfName, List<BooksVO> books) {
+    ShelfVO shelf = ShelfVO(shelfName, books);
+    return _shelfDAO.save(shelf);
+  }
 
   @override
   Stream<List<BooksVO>?> getCarouselSliderBooksListFromDatabaseStream() {
-   return _carouselSliderListDao.watchCarouselSliderListBox().
-    startWith(_carouselSliderListDao.getCarouselSliderListFromDatabaseStream())
-       .map((event) => _carouselSliderListDao.getCarouselSliderListFromDatabase());
+    return _carouselSliderListDao
+        .watchCarouselSliderListBox()
+        .startWith(
+            _carouselSliderListDao.getCarouselSliderListFromDatabaseStream())
+        .map((event) =>
+            _carouselSliderListDao.getCarouselSliderListFromDatabase());
   }
 
   @override
   void saveCarouselBooks(BooksVO books) {
-
     return _carouselSliderListDao.save(books);
   }
 }

@@ -9,34 +9,36 @@ import '../persistent/lists_dao/lists_dao_impl.dart';
 class HomePageBloc extends ChangeNotifier {
   bool _dispose = false;
   List<ListsVO> _listsList = [];
-  List<BooksVO> _carouselSliderList=[];
+  List<BooksVO> _carouselSliderList = [];
 
   ///Getter
   bool get getIsDispose => _dispose;
 
   List<ListsVO> get getListsList => _listsList;
+
   List<BooksVO> get getCarouselSliderList => _carouselSliderList;
 
   ///state Instance
   final LibraryAppApplyImpl _libraryAppApplyImpl = LibraryAppApplyImpl();
   final ListsDAOImpl _listDAOImpl = ListsDAOImpl();
 
-
   HomePageBloc() {
-     _libraryAppApplyImpl.getListsVOFromNetwork(kPublishedDate);
+    _libraryAppApplyImpl.getListsVOFromNetwork(kPublishedDate);
     _libraryAppApplyImpl
         .getListsVOFromDataBaseStream(kPublishedDate)
         .listen((event) {
       if (event != null && event.isNotEmpty) {
-        _listsList = event ?? [] ;
+        _listsList = event ?? [];
 
         notifyListeners();
       }
     });
 
-    _libraryAppApplyImpl.getCarouselSliderBooksListFromDatabaseStream().listen((event) {
-      if(event !=null && event.isNotEmpty){
-        _carouselSliderList=event ;
+    _libraryAppApplyImpl
+        .getCarouselSliderBooksListFromDatabaseStream()
+        .listen((event) {
+      if (event != null && event.isNotEmpty) {
+        _carouselSliderList = event;
         notifyListeners();
       }
     });
@@ -57,7 +59,7 @@ class HomePageBloc extends ChangeNotifier {
 
   void whenTappedFavIcon(String title, String listName) {
     final selectedList = _listDAOImpl.getListOfListsBox.get(listName);
-    _libraryAppApplyImpl.getListsVOFromDataBaseStream(kPublishedDate);
+
 
     if (selectedList != null) {
       List<BooksVO> books = selectedList.books ?? [];
@@ -78,9 +80,9 @@ class HomePageBloc extends ChangeNotifier {
     }
   }
 
-  void showCarouselSlider(BooksVO booksVO){
+  void showCarouselSlider(BooksVO booksVO, String listName) {
+    booksVO.bookListName = listName;
     _libraryAppApplyImpl.saveCarouselBooks(booksVO);
     notifyListeners();
-
   }
 }

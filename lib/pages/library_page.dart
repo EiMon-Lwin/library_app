@@ -22,7 +22,6 @@ class LibraryPage extends StatelessWidget {
         child: Consumer<LibraryPageBloc>(
           builder: (BuildContext context, bloc, Widget? child) =>
               DefaultTabController(
-               // initialIndex: 0,
             length: 2,
             child: Scaffold(
               body: Column(
@@ -49,7 +48,7 @@ class LibraryPage extends StatelessWidget {
                           updatedLists:
                               context.getLibraryPageBloc().getListVoForLibrary,
                         ),
-                        YourShelfPage()
+                        const YourShelfPage()
                       ],
                     ),
                   ),
