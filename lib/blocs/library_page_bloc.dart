@@ -33,18 +33,7 @@ class LibraryPageBloc extends ChangeNotifier {
       }
     });
 
-    var updatedLists = _lists
-        .map((listsVO) {
-          var selectedBooks = listsVO.books
-              ?.where((bookVO) => bookVO.isSelected == true)
-              .toList();
-          listsVO.books = selectedBooks;
-          return listsVO;
-        })
-        .where((listsVO) => listsVO.books != null && listsVO.books!.isNotEmpty)
-        .toList();
-    _lists = updatedLists;
-    notifyListeners();
+
   }
 
   void whenTappedFavIcon(String title, String listName) {
@@ -66,7 +55,6 @@ class LibraryPageBloc extends ChangeNotifier {
 
       _listsDAOImpl.save(_lists);
       notifyListeners();
-      return;
     }
   }
 

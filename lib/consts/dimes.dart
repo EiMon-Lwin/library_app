@@ -13,16 +13,20 @@ const double kSP55x = 55;
 const double kSP60x = 60;
 const double kSP30x = 30;
 const double kSP8ox = 80;
+const double kSP105x=105;
+const double kSP115x=115;
+const double kSP150x=150;
 
 const double kTextFieldSizedWidth380x = 380;
 const double kTextFieldSizedHeight55x = 55;
 const double kBookShelfHeight570x = 570;
 const double kShelfNameBoxWidth100x=100;
 const double kOneShelfHeight360x = 360;
-const double kBookImageItemViewHeight300x = 300;
+const double kBookImageItemViewHeight350x = 350;
 const double kBookImageItemViewWidth150x = 150;
+const double kGridViewImageWidth170x=170;
 const double kShowBottomSheetWidgetHeight230x = 230;
-const double kImageHeight230x = 230;
+const double kImageHeight250x = 250;
 const double kTitleHeight60x = 60;
 const double kCircularImageWidth60x = 60;
 const double kCircularImageHeight45x = 45;
@@ -44,12 +48,14 @@ const double kBookTitleHeight65x = 65;
 
 const double kCarouselSliderWidth350x=350;
 const double kCarouselSliderHeight230x=230;
-const double kCarouselSliderWidth230x=230;
-const double kCarouselSliderHeight200x=200;
+const double kCarouselSliderWidth300x=300;
+const double kCarouselSliderHeight250x=250;
+
+const double kShelfNameTitleWidth200x=200;
 
 
 /// Library Page
-const double kFavoriteBookSessionHeight355x = 355;
+const double kFavoriteBookSessionHeight380x = 380;
 const double kFavoriteBookItemViewHeight320x = 320;
 const double kCachedNetworkImageHeight250x = 250;
 const double kCachedNetworkImageWidth150x = 150;
@@ -64,12 +70,18 @@ const double kShelfImageWidth90x = 90;
 const double kShelfImageHeight60x = 60;
 const String kSaveText = "Save";
 
+///Search Page
+ const double kSearchImageWidth100x=100;
+ const double kSearchImageHeight150x=150;
+ const double kSearchImageBorderRadius10x=10;
+
 ///FontWeight
 const FontWeight kFontWeightBold = FontWeight.bold;
 const FontWeight kFontWeight400x=FontWeight.w400;
 
 ///FontSize
 const double kFontSize20x = 20;
+const double kFontSize13x=13;
 
 ///IconSize
 const double kIconSize15x = 15;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/blocs/search_page_bloc.dart';
 import 'package:library_app/utils/extension.dart';
-import 'package:library_app/widgets/easy_image_widget.dart';
+import 'package:library_app/widgets/network_image_widget.dart';
 import 'package:library_app/widgets/easy_text_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +34,7 @@ class SearchItemView extends StatelessWidget {
             child: Selector<SearchPageBloc,String>(
               selector: (_,select)=> select.getHistory,
               builder: (_,history,child)=>
-               SearchMovieWidget(
+               SearchBookWidget(
                 isAutoFocus: true,
                 isEnable: true,
                 onChange: (text)=>context.getSearchPageBlocInstance().search(text),
@@ -87,7 +87,8 @@ class SearchListView extends StatelessWidget {
       selector: (_, selector) => selector.getIsSearching,
       builder: (_, isSearching, __) => isSearching
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
+          : ListView.separated(
+        separatorBuilder: (context, index) => const SizedBox(height: kSP10x,),
           itemCount: items.length,
           itemBuilder: ((context, index) {
             return SearchListViewItem(
@@ -109,22 +110,22 @@ class SearchListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(kSP10x),
-        child: ListTileFake(
-          leading: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(kSP15x)),
-            child: EasyImageWidget(
-              imgUrl: volumeInfoVO.imageLinks?.thumbnail ?? '',
-            ),
+      padding: const EdgeInsets.only(left: kSP10x),
+      child: ResultBooksItemView(
+        leading: ClipRRect(
+          child: NetworkImageWidget(
+            imgUrl: volumeInfoVO.imageLinks?.thumbnail ?? '', borderRadius: kSearchImageBorderRadius10x, imageWidth: kSearchImageWidth100x, imageHeight: kSearchImageHeight150x,
           ),
-          title: volumeInfoVO.title ?? '',
-          subTitle: volumeInfoVO.printType ?? '',
-        ));
+        ),
+        title: volumeInfoVO.title ?? '',
+        subTitle: volumeInfoVO.printType ?? '',
+      ),
+    );
   }
 }
 
-class ListTileFake extends StatelessWidget {
-  const ListTileFake(
+class ResultBooksItemView extends StatelessWidget {
+  const ResultBooksItemView(
       {Key? key,
         required this.leading,
         required this.title,
@@ -145,8 +146,9 @@ class ListTileFake extends StatelessWidget {
         ),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: kSP10x,),
               EasyTextWidget(text: title),
               const SizedBox(
                 height: kSP10x,
@@ -154,6 +156,7 @@ class ListTileFake extends StatelessWidget {
               EasyTextWidget(
                 text: subTitle,
                 textColor: kTabBarBlackColor,
+                fontSize: kFontSize13x,
               )
             ],
           ),

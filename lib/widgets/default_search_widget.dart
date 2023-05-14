@@ -44,9 +44,10 @@ class SearchDefaultView extends StatelessWidget {
       padding:  const EdgeInsets.all(kSP10x),
       child: Row(
         children: [
+          const SizedBox(width: kSP10x,),
           Icon(icon),
           const SizedBox(
-            width: kSP30x,
+            width: kSP20x,
           ),
           EasyTextWidget(text: label)
         ],

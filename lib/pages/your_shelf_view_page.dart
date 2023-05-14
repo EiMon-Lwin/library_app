@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/consts/colors.dart';
 import 'package:library_app/consts/dimes.dart';
+import 'package:library_app/data/vos/home_screen_api_vos/books_vo/books_vo.dart';
 import 'package:library_app/data/vos/shelf_vos/shelf_vo.dart';
 import 'package:library_app/utils/extension.dart';
 import 'package:library_app/widgets/easy_Text_widget.dart';
+import 'package:library_app/widgets/network_image_widget.dart';
 
 import '../consts/strings.dart';
 
@@ -17,6 +18,11 @@ class YourShelfViewPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        title: EasyTextWidget(
+          text: shelfVO.shelfName ?? '',
+          fontWeight: kFontWeightBold,
+          fontSize: kFontSize20x,
+        ),
         leading: GestureDetector(
             onTap: () {
               context.navigateBack(context);
@@ -39,48 +45,25 @@ class YourShelfViewPage extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: kSP20x),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: kSP10x,
-                  ),
-                  EasyTextWidget(
-                    text: shelfVO.shelfName ?? '',
-                    fontWeight: kFontWeightBold,
-                    fontSize: kFontSize20x,
-                  ),
-                  const SizedBox(
-                    height: kSP10x,
-                  ),
-                  EasyTextWidget(
-                      text: "${shelfVO.shelfBooks?.length} book"
-                          .addS(shelfVO.shelfBooks?.length ?? 0))
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: kSP10x,
-            ),
-            SizedBox(
-              height: kBookImageItemViewHeight300x,
-              child: YourShelfViewPageItem(shelfVO: shelfVO),
-            )
-          ],
-        ),
+      body: Column(
+
+        children: [
+          const SizedBox(height: kSP20x,),
+          EasyTextWidget(
+              text: "${shelfVO.shelfBooks?.length} book"
+                  .addS(shelfVO.shelfBooks?.length ?? 0)),
+          const SizedBox(
+            height: kSP20x,
+          ),
+          YourShelfViewPageItemView(shelfVO: shelfVO)
+        ],
       ),
     );
   }
 }
 
-class YourShelfViewPageItem extends StatelessWidget {
-  const YourShelfViewPageItem({
+class YourShelfViewPageItemView extends StatelessWidget {
+  const YourShelfViewPageItemView({
     super.key,
     required this.shelfVO,
   });
@@ -89,48 +72,52 @@ class YourShelfViewPageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => Container(
-              padding: const EdgeInsets.only(left: kSP10x),
-              width: kBookImageItemViewWidth150x,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: kImageHeight230x,
-                    child: CachedNetworkImage(
-                      imageUrl: shelfVO.shelfBooks?[index].bookImage ??
-                          kDefaultImageLink,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(kImageBorderCircular8x),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: kSP5x,
-                  ),
-                  SizedBox(
-                    height: kTitleHeight60x,
-                    child: EasyTextWidget(
-                        text: shelfVO.shelfBooks?[index].title ?? ''),
-                  )
-                ],
-              ),
-            ),
-        separatorBuilder: (context, index) => const SizedBox(
-              width: kSP5x,
-            ),
-        itemCount: shelfVO.shelfBooks?.length ?? 0);
+    return Expanded(
+      child: GridView.builder(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all( kSP10x),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1/2,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5
+        ),
+        itemCount: shelfVO.shelfBooks?.length,
+        itemBuilder: (context, index) => YourShelfViewPageView(booksVO: shelfVO.shelfBooks![index]),),
+    );
   }
 }
+
+class YourShelfViewPageView extends StatelessWidget {
+  const YourShelfViewPageView({
+    super.key,
+    required this.booksVO,
+  });
+
+  final BooksVO booksVO;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        NetworkImageWidget(
+            imgUrl: booksVO.bookImage ?? kDefaultImageLink,
+            borderRadius: kImageBorderCircular8x,
+            imageWidth: kGridViewImageWidth170x,
+            imageHeight: kImageHeight250x),
+        const SizedBox(
+          height: kSP5x,
+        ),
+        SizedBox(
+          height: kTitleHeight60x,
+          child: EasyTextWidget(
+              text: booksVO.title ?? ''),
+        )
+      ],
+    );
+  }
+}
+
+

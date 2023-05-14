@@ -34,7 +34,7 @@ class LibraryApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BottomNavBarPage(),
+      home: BottomNavBarPage  (),
     );
   }
 }

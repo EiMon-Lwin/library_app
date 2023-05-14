@@ -7,7 +7,7 @@ import '../vos/shelf_vos/shelf_vo.dart';
 
 abstract class LibraryAppApply {
   ///From Network
-  Future<ResultsVO?> getResultsVOFromNetwork(String publishedDate);
+ // Future<ResultsVO?> getResultsVOFromNetwork(String publishedDate);
 
   Future<List<ItemsVO>?> getItemListFromNetwork(String search);
 
@@ -16,7 +16,7 @@ abstract class LibraryAppApply {
 
 
   ///From Database
-  Stream<ResultsVO?> getResultsVOFromDataBaseStream(String publishedDate);
+ // Stream<ResultsVO?> getResultsVOFromDataBaseStream(String publishedDate);
 
   Stream<List<ListsVO>?> getListsVOFromDataBaseStream(String publishedDate);
 

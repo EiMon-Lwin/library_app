@@ -6,8 +6,8 @@ import '../consts/colors.dart';
 import '../consts/dimes.dart';
 import '../consts/strings.dart';
 
-class SearchMovieWidget extends StatelessWidget {
-  const SearchMovieWidget(
+class SearchBookWidget extends StatelessWidget {
+  const SearchBookWidget(
       {super.key,
         this.isEnable = false,
         this.isAutoFocus = false,

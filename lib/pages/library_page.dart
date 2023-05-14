@@ -29,23 +29,12 @@ class LibraryPage extends StatelessWidget {
                   const SizedBox(
                     height: kSP30x,
                   ),
-                   const TabBar(
-                    unselectedLabelColor: kGreyColor,
-                    labelColor: kAmberColor,
-                    tabs: [
-                      Tab(
-                        text: kYourBookText,
-                      ),
-                      Tab(
-                        text: kYourShelf,
-                      ),
-                    ],
-                  ),
+                   const TabBarItemView(),
                   Expanded(
                     child: TabBarView(
                       children: [
                         LibraryBooksItemView(
-                          updatedLists:
+                          listVOs:
                               context.getLibraryPageBloc().getListVoForLibrary,
                         ),
                         const YourShelfPage()
@@ -59,3 +48,5 @@ class LibraryPage extends StatelessWidget {
         ));
   }
 }
+
+

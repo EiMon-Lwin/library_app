@@ -18,8 +18,11 @@ class HomePageBloc extends ChangeNotifier {
 
   List<BooksVO> get getCarouselSliderList => _carouselSliderList;
 
+  GlobalKey<ScaffoldState> get getScaffoldKey => _scaffoldKey;
+
   ///state Instance
   final LibraryAppApplyImpl _libraryAppApplyImpl = LibraryAppApplyImpl();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ListsDAOImpl _listDAOImpl = ListsDAOImpl();
 
   HomePageBloc() {
@@ -60,7 +63,6 @@ class HomePageBloc extends ChangeNotifier {
   void whenTappedFavIcon(String title, String listName) {
     final selectedList = _listDAOImpl.getListOfListsBox.get(listName);
 
-
     if (selectedList != null) {
       List<BooksVO> books = selectedList.books ?? [];
 
@@ -76,7 +78,6 @@ class HomePageBloc extends ChangeNotifier {
 
       _listDAOImpl.save(_listsList);
       notifyListeners();
-      return;
     }
   }
 

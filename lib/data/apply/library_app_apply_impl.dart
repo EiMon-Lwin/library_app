@@ -29,7 +29,7 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   final LibraryAppDataAgent _libraryAppDataAgent = LibraryAppDataAgentImpl();
 
-  final ResultsDAO _resultsDAO = ResultDAOImpl();
+ // final ResultsDAO _resultsDAO = ResultDAOImpl();
   final ListsDAO _listsDAO = ListsDAOImpl();
   final SearchHistoryDAO _searchDao = SearchHistoryDAOImpl();
   final ShelfDAO _shelfDAO = ShelfDAOImpl();
@@ -38,12 +38,12 @@ class LibraryAppApplyImpl extends LibraryAppApply {
 
   ///Network Layer
 
-  @override
-  Future<ResultsVO?> getResultsVOFromNetwork(String publishedDate) {
-    return _libraryAppDataAgent.getResultsVO(publishedDate).then((value) {
-      return value;
-    });
-  }
+  // @override
+  // Future<ResultsVO?> getResultsVOFromNetwork(String publishedDate) {
+  //   return _libraryAppDataAgent.getResultsVO(publishedDate).then((value) {
+  //     return value;
+  //   });
+  // }
 
   @override
   Future<List<ListsVO>?> getListsVOFromNetwork(String publishedDate) =>
@@ -62,13 +62,13 @@ class LibraryAppApplyImpl extends LibraryAppApply {
       _libraryAppDataAgent.getItemsVO(search).then((value) => value);
 
   ///Database Layer
-  @override
-  Stream<ResultsVO?> getResultsVOFromDataBaseStream(String publishedDate) {
-    return _resultsDAO
-        .watchResultsVOBox()
-        .startWith(_resultsDAO.getResultsVOFromDatabaseStream(publishedDate))
-        .map((event) => _resultsDAO.getResultsVOFromDatabase(publishedDate));
-  }
+  // @override
+  // Stream<ResultsVO?> getResultsVOFromDataBaseStream(String publishedDate) {
+  //   return _resultsDAO
+  //       .watchResultsVOBox()
+  //       .startWith(_resultsDAO.getResultsVOFromDatabaseStream(publishedDate))
+  //       .map((event) => _resultsDAO.getResultsVOFromDatabase(publishedDate));
+  // }
 
   @override
   Stream<List<ListsVO>?> getListsVOFromDataBaseStream(String publishedDate) {
